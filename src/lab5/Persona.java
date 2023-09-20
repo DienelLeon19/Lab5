@@ -46,7 +46,7 @@ public class Persona {
    
     String getTexto()
     {
-        return this.Apellido+" , "+this.Nombre;
+        return this.Apellido+" , "+this.Nombre+" | "+this.Codigo;
     }
     
     
