@@ -160,12 +160,27 @@ public class Pantalla extends javax.swing.JFrame
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
         int index = List.getSelectedIndex();
         Persona alumno = Datos.get(index);
-        
-        
-        traerpantalla(alumno);
-        
+        traerpantalla(index,alumno); 
     }//GEN-LAST:event_EditarActionPerformed
 
+     public void remplazar(int indice,Persona alumno)
+    {
+        if (indice >= 0 && indice < Datos.size()) {
+        Persona nodo = Datos.get(indice);
+
+        nodo.setNombre(alumno.getNombre());
+        nodo.setApellido(alumno.getApellido());
+        nodo.setCodigo(alumno.getCodigo());
+
+        // Actualizar el modelo de la lista
+        m.setElementAt(alumno.getTexto(), indice);
+        List.setModel(m);
+        
+        
+        }
+    }
+    
+    
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
         traerpantalla();
         
@@ -186,28 +201,30 @@ public class Pantalla extends javax.swing.JFrame
     }//GEN-LAST:event_CerrarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        String name =  TXT.getText().trim();;
         
-        //aca queria generar un conficional si es si igual a null el txt enton
-        //ces no hara nada muestra tal cual la lista sino rrecore pasa 
-        //elementos a otra lista y muestra esa lista hasta buscar nada o null
-        //y mostraria la listaorigiannl
-        Persona alumno = new Persona();
-     
-        String name =  TXT.getText();
-        
-        for (Persona Nodo : Datos) {
-             alumno.setApellido(alumno.getNombre());
-            //Nodo.setNombre();
-            if (Nodo.equals(name)) {
+        if (name.isEmpty()) {
+            List.setModel(m); 
+        }else{
+            verlist.clear();
+            mod.clear();
+            for (Persona alumno : Datos) {
+                Persona Nodo = new Persona();
+                Nodo.setNombre(alumno.getNombre());
+                Nodo.setApellido(alumno.getApellido());
+                Nodo.setCodigo(alumno.getCodigo());
+              
+            if (Nodo.getNombre().equals(name)) {
+                
                 verlist.add(Nodo);
+                mod.addElement(alumno.getTexto()); 
+                 
+            }
+            List.setModel(mod);
             }
         }
-     
-        Datos.add(alumno);
-        m.addElement(alumno.getTexto());
-        List.setModel(m);
-        
-        
+
         
     }//GEN-LAST:event_jButton1ActionPerformed
     
@@ -218,19 +235,27 @@ public class Pantalla extends javax.swing.JFrame
         List.setModel(m);
     }
     
+    
+    
+    
     private void traerpantalla()
     {
         Pdatos estudiante = new Pdatos(this);
         estudiante.setLocationRelativeTo(null);
         estudiante.setVisible(true);
+        estudiante.apagarventana2();
         this.setVisible(false);
     }
     
-    private void traerpantalla(Persona alumno)
+    private void traerpantalla(int index,Persona alumno)
     { 
-        Pdatos PantallaAlum = new Pdatos(this, alumno);
+        
+        Pdatos PantallaAlum = new Pdatos(this, alumno,index);
+        
+        
         PantallaAlum.setLocationRelativeTo(null);
         PantallaAlum.setVisible(true);
+        PantallaAlum.apagarventana();
         this.setVisible(false);
     }
     
